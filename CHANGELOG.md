@@ -2,6 +2,10 @@
 
 ## NEXT VERSION
 
+## v1.15.2 (2023-03-15)
+
+- back merge into our branch
+
 ## v1.13.4 (2023-03-15)
 
 - fix: allow any react node to be used as column title
