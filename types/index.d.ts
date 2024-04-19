@@ -427,8 +427,8 @@ declare module '@datafoldcom/react-base-table' {
      */
     overscanRowCount?: number;
     /**
-    * Number of rows to render above/below the visible bounds of the list
-    */
+     * Number of columns to render left/right the visible bounds of the list
+     */
     overscanColumnCount?: number;
     /**
      * Array of column widths, when column virtualization is required
