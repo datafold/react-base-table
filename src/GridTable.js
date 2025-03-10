@@ -74,14 +74,6 @@ class GridTable extends React.PureComponent {
     return rowRenderer({ ...args, columns, rowData });
   }
 
-  getColumnWidthFunction(columnWidths) {
-    return (index) => columnWidths[index];
-  }
-
-  getColumnCount() {
-    return this.props.columnWidths && Array.isArray(this.props.columnWidths) ? this.props.columnWidths.length : 1
-  }
-
   render() {
     const {
       containerStyle,
@@ -100,11 +92,9 @@ class GridTable extends React.PureComponent {
       onScroll,
       hoveredRowKey,
       overscanRowCount,
-      overscanColumnCount,
       // omit from rest
       style,
       onScrollbarPresenceChange,
-      columnWidths,
       ...rest
     } = this.props;
     const headerHeight = this._getHeaderHeight();
@@ -112,8 +102,7 @@ class GridTable extends React.PureComponent {
     const frozenRowsHeight = rowHeight * frozenRowCount;
     const cls = cn(`${classPrefix}__table`, className);
     const containerProps = containerStyle ? { style: containerStyle } : null;
-    const Grid = (estimatedRowHeight || columnWidths) ? VariableSizeGrid : FixedSizeGrid;
-    const columnCount = this.getColumnCount();
+    const Grid = estimatedRowHeight ? VariableSizeGrid : FixedSizeGrid;
 
     this._resetColumnWidthCache(bodyWidth);
     return (
@@ -128,13 +117,13 @@ class GridTable extends React.PureComponent {
           frozenData={frozenData}
           width={width}
           height={Math.max(height - headerHeight - frozenRowsHeight, 0)}
-          rowHeight={(estimatedRowHeight || columnWidths) ? (getRowHeight ? getRowHeight : () => rowHeight)  : rowHeight}
+          rowHeight={estimatedRowHeight ? getRowHeight : rowHeight}
           estimatedRowHeight={typeof estimatedRowHeight === 'function' ? undefined : estimatedRowHeight}
           rowCount={data.length}
           overscanRowCount={overscanRowCount}
-          columnWidth={columnWidths ? this.getColumnWidthFunction(columnWidths) : estimatedRowHeight ? this._getBodyWidth : bodyWidth}
-          columnCount={columnCount}
-          overscanColumnCount={overscanColumnCount}
+          columnWidth={estimatedRowHeight ? this._getBodyWidth : bodyWidth}
+          columnCount={1}
+          overscanColumnCount={0}
           useIsScrolling={useIsScrolling}
           hoveredRowKey={hoveredRowKey}
           onScroll={onScroll}
@@ -221,7 +210,6 @@ GridTable.propTypes = {
   rowKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   useIsScrolling: PropTypes.bool,
   overscanRowCount: PropTypes.number,
-  overscanColumnCount: PropTypes.number,
   hoveredRowKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   style: PropTypes.object,
   onScrollbarPresenceChange: PropTypes.func,
@@ -229,7 +217,6 @@ GridTable.propTypes = {
   onRowsRendered: PropTypes.func,
   headerRenderer: PropTypes.func.isRequired,
   rowRenderer: PropTypes.func.isRequired,
-  columnWidths: PropTypes.arrayOf(PropTypes.number),
 };
 
 export default GridTable;

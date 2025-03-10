@@ -1088,7 +1088,6 @@ BaseTable.defaultProps = {
   sortBy: {},
   useIsScrolling: false,
   overscanRowCount: 1,
-  overscanColumnCount: 1,
   onEndReachedThreshold: 500,
   getScrollbarSize: defaultGetScrollbarSize,
   ignoreFunctionInColumnCompare: true,
@@ -1302,14 +1301,6 @@ BaseTable.propTypes = {
    * Number of rows to render above/below the visible bounds of the list
    */
   overscanRowCount: PropTypes.number,
-  /**
-   * Number of columns to render left/right the visible bounds of the list
-   */
-  overscanColumnCount: PropTypes.number,
-  /**
-  * Array of column widths, when column virtualization is required
-  */
-  columnWidths: PropTypes.arrayOf(PropTypes.number),
   /**
    * Custom scrollbar size measurement
    */
